@@ -5,8 +5,8 @@ from scipy.spatial import distance
 
 #input parameters
 max_map_size = 100 
-max_iterations= 100
-max_vertex_dist = 12
+max_iterations= 200
+max_vertex_dist = 1
 
 vertex_explored = 0
 vertex_discarded = 0
@@ -49,23 +49,18 @@ plt.scatter(initial_location[0],initial_location[1], c='#0e8eff', alpha=0.5)
 
 for i in range(max_iterations):
     point = rand_pt()
-    if nearest_vertex([point]) == 100:
+    near_point = nearest_vertex([point])
+    if near_point == 100:
         vertex_discarded += 1
     else:
         vertex_aprooved += 1
         point_list.append(point)
-        connect_point = nearest_vertex([point])
-        print(connect_point, point)
+        x_coordinates = [near_point[0], point[0]]
+        y_coordinates = [near_point[1], point[1]]
+        #print(near_point, point)
         plt.scatter(point[0],point[1], c='#ff7f0e', alpha=0.5)
-        plt.plot( [connect_point[0], point[0]], [connect_point[1], point[1]])
-        
-
-
-#test
-#his=[(99,99)]    
-#mihir = nearest_vertex(his)
-#print(mihir)
-
+        plt.plot(x_coordinates, y_coordinates)
+        plt.draw()
 
 print("initial location: " + str(initial_location))
 print("vertex explored: " + str(vertex_explored))

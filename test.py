@@ -1,0 +1,76 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.pyplot as cm
+from scipy.spatial import distance
+
+#input parameters
+max_map_size = 100 
+max_iterations= 100
+max_vertex_dist = 12
+
+vertex_explored = 0
+vertex_discarded = 0
+vertex_aprooved = 0
+
+initial_location = (50,50)
+
+#Generate Randon Points
+
+def rand_pt():
+    x = np.random.randint(low=0, high=max_map_size)
+    y = np.random.randint(low=0, high=max_map_size)
+    global vertex_explored
+    vertex_explored += 1
+    return (x,y)
+
+#find nearest vertex
+
+def nearest_vertex(explored_point):
+    
+    dist_list = distance.cdist(point_list,explored_point, 'euclidean')
+    dist_list = dist_list.tolist() 
+    shortest_distance = min(dist_list)
+    index_of_mindist = dist_list.index(min(dist_list))
+    shortest_point = point_list[index_of_mindist]
+    if float(shortest_distance[0]) <= max_vertex_dist:
+        return shortest_point
+    else:
+        return 100
+
+
+#list of points generated
+point_list=[initial_location]
+
+#plot initial
+
+plt.scatter(initial_location[0],initial_location[1], c='#0e8eff', alpha=0.5)
+
+#plot subsequent
+
+for i in range(max_iterations):
+    point = rand_pt()
+    if nearest_vertex([point]) == 100:
+        vertex_discarded += 1
+    else:
+        vertex_aprooved += 1
+        point_list.append(point)
+        connect_point = nearest_vertex([point])
+        print(connect_point, point)
+        plt.scatter(point[0],point[1], c='#ff7f0e', alpha=0.5)
+        plt.plot( [connect_point[0], point[0]], [connect_point[1], point[1]])
+        
+
+
+#test
+#his=[(99,99)]    
+#mihir = nearest_vertex(his)
+#print(mihir)
+
+
+print("initial location: " + str(initial_location))
+print("vertex explored: " + str(vertex_explored))
+print("vertex aprooved: " + str(vertex_aprooved))
+print("vertex discarded: " + str(vertex_discarded))
+
+#print(point_list)
+plt.show()

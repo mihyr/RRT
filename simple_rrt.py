@@ -5,8 +5,8 @@ from scipy.spatial import distance
 
 #input parameters
 max_map_size = 100 
-max_iterations= 200
-max_vertex_dist = 20
+max_iterations= 30000
+max_vertex_dist = 2
 
 vertex_explored = 0
 vertex_discarded = 0
@@ -35,7 +35,7 @@ def nearest_vertex(explored_point):
     if float(shortest_distance[0]) <= max_vertex_dist:
         return shortest_point
     else:
-        return 100
+        return 1000
 
 
 #list of points generated
@@ -43,14 +43,14 @@ point_list=[initial_location]
 
 #plot initial
 
-plt.scatter(initial_location[0],initial_location[1], c='#0e8eff', alpha=0.5)
+plt.scatter(initial_location[0],initial_location[1], c='#ff0e16', alpha=0.5)
 
 #plot subsequent
 
 for i in range(max_iterations):
     point = rand_pt()
     near_point = nearest_vertex([point])
-    if near_point == 100:
+    if near_point == 1000:
         vertex_discarded += 1
     else:
         vertex_aprooved += 1
